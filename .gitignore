@@ -1,0 +1,26 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+*.egg-info/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Env / secrets
+.env
+
+# Data (raw and parsed corpora)
+data/raw/*
+data/parsed/*
+!data/raw/.gitkeep
+!data/parsed/.gitkeep
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# OS / editors
+.DS_Store
+.idea/
+.vscode/

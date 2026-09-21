@@ -1,0 +1,41 @@
+# Non-secret application configuration. Secrets and environment-specific
+# values (API keys, URLs) come from .env / environment variables.
+# Any key here can be overridden with RAGCHAT_<SECTION>__<KEY>.
+
+llm:
+  model: gpt-4.1
+  small_model: gpt-4.1-mini        # query rewriting, cheap classification
+  temperature: 0.0
+  max_output_tokens: 2048
+
+embedding:
+  model: text-embedding-3-large
+  dimensions: 1024
+  batch_size: 256
+  max_concurrency: 4
+
+vectorstore:
+  collection: ragchat_chunks
+  dense_vector_name: dense
+  sparse_vector_name: sparse
+
+chunking:
+  target_tokens: 600
+  max_tokens: 800
+  overlap_tokens: 60
+  table_max_tokens: 1500
+
+# Bump when chunking/embedding config changes in a way that invalidates the index.
+pipeline_version: 1
+
+retrieval:
+  prefetch_k: 40
+  top_k: 8
+  max_chunks_per_doc: 3
+  hybrid: false          # enable after eval (M4)
+  rerank: none           # none | cross_encoder | llm
+  query_rewrite: false
+
+agent:
+  max_tool_iterations: 6
+  max_context_tokens: 24000
