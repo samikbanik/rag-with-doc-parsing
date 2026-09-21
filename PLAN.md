@@ -113,3 +113,8 @@ doc-parser-with-rag/
 ## Deferred / explicitly out of scope now
 
 ACLs, OCR, deployment, auth beyond API key, multi-tenant collections, Langfuse/OTel, HyDE/multi-query beyond the rewrite step, webhooks from Notion, Confluence/SharePoint/Drive connectors.
+
+## Status
+
+- **2026-09-22 — Milestone 0 complete** (commit `fd8d1f8`). `rag status` green for Qdrant and Postgres; OpenAI needs a real key in `.env`. Frontend skeleton builds. Directory renamed to `rag-with-doc-parsing`; remote `origin` added, not yet pushed.
+- **Next: Milestone 1** — local directory ingestion (`rag ingest --path <dir>`), synchronous, no job queue yet. Start with `ingest/ir.py`, then parsers, chunker, embedding cache, Qdrant collection, ingest state table (first Alembic migration).
