@@ -2,7 +2,6 @@
 
 ## Context
 
-Greenfield project in `/Users/laxmipavanis/src/doc-parser-with-rag` (empty dir, not yet a git repo).
 Goal: an enterprise chat where employees ask questions over parsed company documents/wikis and
 trigger actions via an agentic tool-calling loop. Retrieval is RAG over a vector DB. OpenAI is the
 only LLM/embedding provider. Deployment is out of scope; focus is parsing → indexing → retrieval →
@@ -148,5 +147,23 @@ ACLs, OCR, deployment, auth beyond API key, multi-tenant collections, Langfuse/O
   `[n]` markers (prompt tweak before the M7 UI); "revenue was 142" dropped the "USD millions" unit
   that sits in the neighbouring chunk — a case for neighbour expansion. Fixed in passing: pruning
   now also deletes the IR JSON so `rag reindex` cannot resurrect removed documents.
-- **Next: Milestone 3** — eval harness: `generate_golden.py`, curated `eval/golden.jsonl`, `rag eval`
-  with recall@k / MRR + ragas, baselines committed.
+- **2026-09-22 — Milestone 3 complete.** Eval harness: `src/ragchat/eval/{golden,metrics,runner,
+  generate}.py`; `eval/generate_golden.py` samples indexed chunks and asks the small model for
+  questions whose supporting span is verbatim in the chunk → `eval/golden.candidates.jsonl`
+  (gitignored) → hand-curated `eval/golden.jsonl` (38 items: 25 synthetic edited, 9 manual incl. a
+  multi-chunk case, 4 refusals incl. hard negatives). Golden entries match retrieved chunks by
+  file name + chunk_index or verbatim span, so they survive re-ingests and other checkouts.
+  `rag eval [--answers] [--ragas] [--compare current] [--save-baseline name] [--out runs.jsonl]`:
+  recall@{1,3,5,8,10}, hit@k, MRR; with answers: citation precision/hit rate, false-refusal rate,
+  refusal accuracy; with ragas 0.4 (via our OpenAI client): faithfulness, answer relevancy,
+  context precision/recall. Exit 1 when recall@k drops > `eval.regression_threshold` vs the
+  baseline. **Baseline recorded** in `eval/baselines/current.json` (commit `41f1391` config,
+  dense-only): MRR 0.926, recall@1 0.838, recall@3..10 1.000, citation precision 1.0, refusal
+  accuracy 1.0, faithfulness 0.996, answer relevancy 0.940, context precision 0.886.
+  The fixture corpus (24 chunks) saturates recall@≥3; recall@1 / MRR / context precision are the
+  numbers M4 flags must move — a larger corpus should be ingested before M4 for meaningful deltas.
+  Notes: ragas pulls in the langchain stack and pins `openai` to 3.3 (eval-only dependency; the
+  judge uses the project's `AsyncOpenAI` client, not LLMClient). Judges are given breadcrumb +
+  text, exactly what the model sees — scoring bare chunk text produced false "unfaithful" verdicts.
+- **Next: Milestone 4** — retrieval quality flag by flag (sparse BM25 + RRF, query rewrite, rerank,
+  neighbour expansion, contextual prefixes), each kept only if `rag eval` improves.

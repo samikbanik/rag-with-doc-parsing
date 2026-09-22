@@ -58,6 +58,15 @@ class RetrievalSettings(BaseModel):
     query_rewrite: bool = False
 
 
+class EvalSettings(BaseModel):
+    k: int = 8  # recall@k that gates regressions
+    regression_threshold: float = 0.05  # fail `rag eval` if recall@k drops by more than this
+    golden_path: Path = PROJECT_ROOT / "eval" / "golden.jsonl"
+    baselines_dir: Path = PROJECT_ROOT / "eval" / "baselines"
+    questions_per_chunk: int = 2  # synthetic golden generation
+    max_chunks: int = 60  # chunks sampled for synthetic generation
+
+
 class AgentSettings(BaseModel):
     max_tool_iterations: int = 6
     max_context_tokens: int = 24000
@@ -88,6 +97,7 @@ class Settings(BaseSettings):
     chunking: ChunkingSettings = ChunkingSettings()
     retrieval: RetrievalSettings = RetrievalSettings()
     agent: AgentSettings = AgentSettings()
+    eval: EvalSettings = EvalSettings()
     pipeline_version: int = 1
 
     @classmethod

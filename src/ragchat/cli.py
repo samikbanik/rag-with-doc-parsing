@@ -1,7 +1,7 @@
 """`rag` command-line interface.
 
 Milestone 0: `status`, `config`. Milestone 1: `ingest`, `reindex`. Milestone 2: `query`.
-Later milestones add eval, worker.
+Milestone 3: `eval`. Later milestones add worker.
 """
 
 from __future__ import annotations
@@ -216,6 +216,100 @@ def query(
         f"[dim]trace={answer.trace_id}  tokens={answer.usage.get('input_tokens', 0)}+"
         f"{answer.usage.get('output_tokens', 0)}  latency={answer.latency_ms}ms[/]"
     )
+
+
+@app.command()
+def eval(  # noqa: A001 - CLI verb
+    golden: Annotated[
+        Path | None, typer.Option(help="Golden set (default: settings.eval.golden_path)")
+    ] = None,
+    answers: bool = typer.Option(False, help="Also generate answers: citation/refusal metrics"),
+    ragas: bool = typer.Option(False, help="Also run ragas judges (implies --answers; costs)"),
+    compare: str | None = typer.Option(
+        "current", help="Baseline name to diff against ('' to skip)", show_default=True
+    ),
+    save_baseline: str | None = typer.Option(None, help="Save run as eval/baselines/<name>.json"),
+    out: Annotated[Path | None, typer.Option(help="Write per-question results as JSONL")] = None,
+    limit: int | None = typer.Option(None, help="Only the first N golden items"),
+) -> None:
+    """Score retrieval (recall@k, MRR) and optionally answers against the golden set."""
+    from ragchat.eval.golden import load_golden
+    from ragchat.eval.runner import EvalRunner, RagasJudge, load_baseline
+    from ragchat.eval.runner import compare as compare_runs
+    from ragchat.eval.runner import save_baseline as save_baseline_file
+
+    s = get_settings()
+    golden_path = golden or s.eval.golden_path
+    if not golden_path.exists():
+        console.print(f"[red]golden set not found: {golden_path}[/] (see eval/generate_golden.py)")
+        raise typer.Exit(code=2)
+    items = load_golden(golden_path)[:limit]
+
+    service = _answer_service() if (answers or ragas) else None
+    if service is None:
+        from ragchat.core.llm import get_llm
+        from ragchat.retrieval.retriever import Retriever
+        from ragchat.retrieval.vectorstore import VectorStore
+
+        retriever = Retriever(s, VectorStore(s), get_llm().embed)
+    else:
+        retriever = service.retriever
+    judge = RagasJudge(s, service.llm.client) if (ragas and service) else None
+    runner = EvalRunner(s, retriever, service, judge)
+    run = asyncio.run(runner.run(items, golden_path))
+
+    k = s.eval.k
+    table = Table(title=f"rag eval  ({run.summary.n} factual, {run.summary.n_refusal} refusal)")
+    table.add_column("Metric")
+    table.add_column("Value", justify="right")
+    for name, value in run.summary.flat(k).items():
+        if value is not None:
+            table.add_row(name, f"{value:.3f}")
+    console.print(table)
+
+    misses = [r for r in run.results if r.retrieval and r.retrieval.first_hit_rank is None]
+    if misses:
+        depth = len(misses[0].hits)
+        console.print(f"[yellow]{len(misses)} question(s) with no hit in top {depth}:[/]")
+        for r in misses:
+            console.print(f"  {r.item.id}: {r.item.question}")
+
+    if out:
+        import json
+
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text("".join(json.dumps(r.row()) + "\n" for r in run.results))
+        console.print(f"[dim]per-question results → {out}[/]")
+
+    exit_code = 0
+    if compare:
+        base_path = s.eval.baselines_dir / f"{compare}.json"
+        if base_path.exists():
+            cmp = compare_runs(run, load_baseline(base_path), s.eval.regression_threshold)
+            diff = Table(title=f"vs baseline '{compare}' ({base_path.name})")
+            for col in ("Metric", "Baseline", "Current", "Δ"):
+                diff.add_column(col, justify="right" if col != "Metric" else "left")
+            for name, b, c, d in cmp.rows:
+                fmt = lambda v: "-" if v is None else f"{v:.3f}"  # noqa: E731
+                colour = "" if d is None or abs(d) < 1e-9 else ("green" if d > 0 else "red")
+                diff.add_row(name, fmt(b), fmt(c), f"[{colour}]{fmt(d)}[/]" if colour else fmt(d))
+            console.print(diff)
+            for w in cmp.warnings:
+                console.print(f"[yellow]warning: {w}[/]")
+            if cmp.regressed:
+                console.print(
+                    f"[red]REGRESSION: {cmp.gate_metric} dropped by more than "
+                    f"{s.eval.regression_threshold:.2f}[/]"
+                )
+                exit_code = 1
+        else:
+            console.print(f"[dim]no baseline '{compare}' to compare with[/]")
+
+    if save_baseline:
+        path = s.eval.baselines_dir / f"{save_baseline}.json"
+        save_baseline_file(run, path, save_baseline)
+        console.print(f"baseline saved → {path}")
+    raise typer.Exit(code=exit_code)
 
 
 @app.command()

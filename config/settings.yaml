@@ -38,6 +38,12 @@ retrieval:
   rerank: none           # none | cross_encoder | llm
   query_rewrite: false
 
+eval:
+  k: 8                         # recall@k that gates regressions
+  regression_threshold: 0.05   # `rag eval --compare` fails if recall@k drops by more than this
+  questions_per_chunk: 2       # synthetic golden generation
+  max_chunks: 60
+
 agent:
   max_tool_iterations: 6
   max_context_tokens: 24000

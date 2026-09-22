@@ -24,3 +24,5 @@ frontend/dist/
 .DS_Store
 .idea/
 .vscode/
+eval/golden.candidates.jsonl
+eval/runs/
