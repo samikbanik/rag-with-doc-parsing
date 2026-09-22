@@ -117,4 +117,20 @@ ACLs, OCR, deployment, auth beyond API key, multi-tenant collections, Langfuse/O
 ## Status
 
 - **2026-09-22 — Milestone 0 complete** (commit `fd8d1f8`). `rag status` green for Qdrant and Postgres; OpenAI needs a real key in `.env`. Frontend skeleton builds. Directory renamed to `rag-with-doc-parsing`; remote `origin` added, not yet pushed.
-- **Next: Milestone 1** — local directory ingestion (`rag ingest --path <dir>`), synchronous, no job queue yet. Start with `ingest/ir.py`, then parsers, chunker, embedding cache, Qdrant collection, ingest state table (first Alembic migration).
+- **2026-09-22 — Milestone 1 complete** (uncommitted at time of writing). Local directory ingestion, synchronous:
+  `ingest/ir.py` (typed IR, uuid5 ids), parser router + Markdown (markdown-it-py) / HTML (bs4) / Docling
+  (PDF, DOCX, PPTX, XLSX; OCR off, heading hierarchy inferred from font style for PDFs), structure-aware
+  chunker (breadcrumbs, sentence overlap, code never split, tables split by rows with header repeated),
+  Postgres `documents` / `chunks` / `embedding_cache` (migration `0001_ingest_state`), Qdrant collection
+  with named dense + sparse slots, payload indexes and the index-config guard stored as collection
+  metadata, `rag ingest --path <dir> [--workers N --force --no-prune --dry-run]` and
+  `rag reindex [--recreate]`. Parsing runs in a spawn process pool; embedding is async with cache.
+  No-gap re-ingest deletes `doc_id = X AND id NOT IN new_ids` (a superset of `content_hash != new`
+  that also covers re-chunking with fewer chunks). Tests: 45 (unit + Docling snapshots, skipped when
+  models are not cached + integration via testcontainers, skipped without Docker).
+  **Docling benchmark** (M2 MacBook, MPS): converter init 1.6 s; 2-page fixture 0.43 s warm;
+  58-page synthetic manual with tables 9.0 s ≈ **6.4 pages/s** (`scripts/bench_docling.py`).
+  Fast enough that the `pymupdf4llm` fast path was not added; revisit if real corpora are slower.
+  Known limits: failed documents are retried on every run; nested PPTX bullets come out flat;
+  a 401 from OpenAI fails each document rather than aborting the run.
+- **Next: Milestone 2** — baseline dense retrieval, context assembly, cited answers via `rag query`, traces.

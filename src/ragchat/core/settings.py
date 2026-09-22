@@ -32,6 +32,7 @@ class EmbeddingSettings(BaseModel):
     dimensions: int = 1024
     batch_size: int = 256
     max_concurrency: int = 4
+    price_per_million_tokens: float = 0.13  # USD, for the pre-embedding cost estimate
 
 
 class VectorStoreSettings(BaseModel):

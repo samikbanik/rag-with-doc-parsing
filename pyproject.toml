@@ -20,6 +20,10 @@ dependencies = [
     "structlog>=24.1",
     "httpx>=0.27",
     "tenacity>=8.4",
+    "docling>=2.40",
+    "markdown-it-py>=3.0",
+    "beautifulsoup4>=4.12",
+    "lxml>=5.0",
 ]
 
 [project.optional-dependencies]
@@ -28,6 +32,7 @@ dev = [
     "pytest-asyncio>=0.23",
     "ruff>=0.5",
     "mypy>=1.10",
+    "testcontainers[postgres,qdrant]>=4.8",
 ]
 
 [project.scripts]

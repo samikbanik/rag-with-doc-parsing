@@ -1,0 +1,62 @@
+{
+  "blocks": [
+    {
+      "level": 1,
+      "text": "Security Policy",
+      "type": "heading"
+    },
+    {
+      "text": "All employees must follow this policy. It applies to laptops and phones.",
+      "type": "paragraph"
+    },
+    {
+      "level": 2,
+      "text": "Passwords",
+      "type": "heading"
+    },
+    {
+      "text": "Passwords must be at least 12 characters and rotate every 90 days.",
+      "type": "paragraph"
+    },
+    {
+      "level": 1,
+      "text": "Use a password manager",
+      "type": "list_item"
+    },
+    {
+      "level": 1,
+      "text": "Enable MFA everywhere",
+      "type": "list_item"
+    },
+    {
+      "level": 2,
+      "text": "Devices",
+      "type": "heading"
+    },
+    {
+      "text": "Devices are managed centrally. Encryption is mandatory.",
+      "type": "paragraph"
+    },
+    {
+      "table_html": "<table><thead><tr><th>Device</th><th>Owner</th></tr></thead><tbody><tr><td>Laptop</td><td>Employee</td></tr><tr><td>Phone</td><td>Company</td></tr></tbody></table>",
+      "text": "| Device | Owner |\n| --- | --- |\n| Laptop | Employee |\n| Phone | Company |",
+      "type": "table"
+    },
+    {
+      "level": 3,
+      "text": "Incident response",
+      "type": "heading"
+    },
+    {
+      "text": "Report incidents to security@example.com within one hour.",
+      "type": "paragraph"
+    }
+  ],
+  "doc_type": "docx",
+  "metadata": {
+    "docling_status": "success",
+    "filename": "policy.docx"
+  },
+  "parser": "docling",
+  "title": "Security Policy"
+}

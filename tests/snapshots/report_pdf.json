@@ -1,0 +1,128 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        221.48,
+        708.92,
+        390.52,
+        692.27
+      ],
+      "level": 1,
+      "page": 1,
+      "text": "Annual Report 2025",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        78.0,
+        680.92,
+        247.07,
+        664.27
+      ],
+      "level": 1,
+      "page": 1,
+      "text": "Executive summary",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        78.0,
+        655.18,
+        520.96,
+        633.93
+      ],
+      "page": 1,
+      "text": "Revenue grew 18% year over year, driven by the enterprise segment. Operating margin improved to 21% as cloud costs fell.",
+      "type": "paragraph"
+    },
+    {
+      "bbox": [
+        78.0,
+        616.92,
+        166.04,
+        600.27
+      ],
+      "level": 1,
+      "page": 1,
+      "text": "Financials",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        78.0,
+        591.18,
+        352.52,
+        581.93
+      ],
+      "page": 1,
+      "text": "Key figures are summarised in the table below (USD millions).",
+      "type": "paragraph"
+    },
+    {
+      "bbox": [
+        78.0,
+        482.05,
+        130.89,
+        469.1
+      ],
+      "level": 2,
+      "page": 1,
+      "text": "Outlook",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        78.0,
+        459.18,
+        417.62,
+        449.93
+      ],
+      "page": 1,
+      "text": "We expect continued growth in 2026 with a focus on international expansion.",
+      "type": "paragraph"
+    },
+    {
+      "bbox": [
+        239.26,
+        583.08,
+        372.15,
+        509.39
+      ],
+      "page": 1,
+      "table_html": "<table><thead><tr><th>Metric</th><th>2024</th><th>2025</th></tr></thead><tbody><tr><td>Revenue</td><td>120</td><td>142</td></tr><tr><td>Opex</td><td>95</td><td>104</td></tr><tr><td>Net income</td><td>14</td><td>22</td></tr></tbody></table>",
+      "text": "| Metric | 2024 | 2025 |\n| --- | --- | --- |\n| Revenue | 120 | 142 |\n| Opex | 95 | 104 |\n| Net income | 14 | 22 |",
+      "type": "table"
+    },
+    {
+      "bbox": [
+        78.0,
+        708.92,
+        160.01,
+        692.27
+      ],
+      "level": 1,
+      "page": 2,
+      "text": "Appendix",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        78.0,
+        683.18,
+        532.13,
+        451.93
+      ],
+      "page": 2,
+      "text": "Note 1: This is a supporting paragraph number 1 with enough words to be detected as body text by the layout model. Note 2: This is a supporting paragraph number 2 with enough words to be detected as body text by the layout model. Note 3: This is a supporting paragraph number 3 with enough words to be detected as body text by the layout model. Note 4: This is a supporting paragraph number 4 with enough words to be detected as body text by the layout model. Note 5: This is a supporting paragraph number 5 with enough words to be detected as body text by the layout model. Note 6: This is a supporting paragraph number 6 with enough words to be detected as body text by the layout model. Note 7: This is a supporting paragraph number 7 with enough words to be detected as body text by the layout model. Note 8: This is a supporting paragraph number 8 with enough words to be detected as body text by the layout model.",
+      "type": "paragraph"
+    }
+  ],
+  "doc_type": "pdf",
+  "metadata": {
+    "docling_status": "success",
+    "filename": "report.pdf",
+    "page_count": 2
+  },
+  "parser": "docling",
+  "title": "Annual Report 2025"
+}

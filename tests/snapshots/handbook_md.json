@@ -1,0 +1,103 @@
+{
+  "blocks": [
+    {
+      "level": 1,
+      "text": "Welcome",
+      "type": "heading"
+    },
+    {
+      "text": "This handbook covers policies and benefits for all staff. It is updated quarterly.",
+      "type": "paragraph"
+    },
+    {
+      "level": 2,
+      "text": "Time off",
+      "type": "heading"
+    },
+    {
+      "text": "Everyone gets 25 days of paid leave per year. Unused days carry over.",
+      "type": "paragraph"
+    },
+    {
+      "level": 1,
+      "text": "Request leave in the HR portal",
+      "type": "list_item"
+    },
+    {
+      "level": 1,
+      "text": "Manager approval is required",
+      "type": "list_item"
+    },
+    {
+      "level": 2,
+      "text": "Except for sick leave, which is self-certified",
+      "type": "list_item"
+    },
+    {
+      "level": 1,
+      "text": "Public holidays are extra",
+      "type": "list_item"
+    },
+    {
+      "level": 3,
+      "text": "Parental leave",
+      "type": "heading"
+    },
+    {
+      "level": 1,
+      "text": "Notify your manager",
+      "type": "list_item"
+    },
+    {
+      "level": 1,
+      "text": "Submit the form",
+      "type": "list_item"
+    },
+    {
+      "level": 2,
+      "text": "Expenses",
+      "type": "heading"
+    },
+    {
+      "table_html": "<table><thead><tr><th>Category</th><th>Limit</th><th>Receipt required</th></tr></thead><tbody><tr><td>Meals</td><td>$50/day</td><td>yes</td></tr><tr><td>Hotel</td><td>$200/night</td><td>yes</td></tr><tr><td>Taxi</td><td>$30</td><td>no</td></tr></tbody></table>",
+      "text": "| Category | Limit | Receipt required |\n| --- | --- | --- |\n| Meals | $50/day | yes |\n| Hotel | $200/night | yes |\n| Taxi | $30 | no |",
+      "type": "table"
+    },
+    {
+      "text": "Reimbursement takes 5 business days.",
+      "type": "paragraph"
+    },
+    {
+      "language": "python",
+      "text": "def reimburse(amount: float) -> bool:\n    return amount <= LIMIT",
+      "type": "code"
+    },
+    {
+      "text": "Quoted note about reimbursements.",
+      "type": "paragraph"
+    },
+    {
+      "text": "Raw HTML block.",
+      "type": "paragraph"
+    },
+    {
+      "level": 2,
+      "text": "Contact",
+      "type": "heading"
+    },
+    {
+      "text": "Email people-ops@example.com.",
+      "type": "paragraph"
+    }
+  ],
+  "doc_type": "md",
+  "metadata": {
+    "filename": "handbook.md",
+    "front_matter": {
+      "owner": "people-ops",
+      "title": "Employee Handbook"
+    }
+  },
+  "parser": "markdown",
+  "title": "Employee Handbook"
+}

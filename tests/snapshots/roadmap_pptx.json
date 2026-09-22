@@ -1,0 +1,107 @@
+{
+  "blocks": [
+    {
+      "bbox": [
+        685800.0,
+        3600450.0,
+        8458200.0,
+        2130425.0
+      ],
+      "level": 1,
+      "page": 1,
+      "text": "Q3 Roadmap",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        1371600.0,
+        5638800.0,
+        7772400.0,
+        3886200.0
+      ],
+      "page": 1,
+      "text": "Engineering all-hands",
+      "type": "paragraph"
+    },
+    {
+      "bbox": [
+        457200.0,
+        1417638.0,
+        8686800.0,
+        274638.0
+      ],
+      "level": 1,
+      "page": 2,
+      "text": "Goals",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        457200.0,
+        6126163.0,
+        8686800.0,
+        1600200.0
+      ],
+      "level": 1,
+      "page": 2,
+      "text": "Ship the new search",
+      "type": "list_item"
+    },
+    {
+      "bbox": [
+        457200.0,
+        6126163.0,
+        8686800.0,
+        1600200.0
+      ],
+      "level": 1,
+      "page": 2,
+      "text": "Cut p95 latency by half",
+      "type": "list_item"
+    },
+    {
+      "bbox": [
+        457200.0,
+        6126163.0,
+        8686800.0,
+        1600200.0
+      ],
+      "level": 1,
+      "page": 2,
+      "text": "Hire two engineers",
+      "type": "list_item"
+    },
+    {
+      "bbox": [
+        457200.0,
+        1417638.0,
+        8686800.0,
+        274638.0
+      ],
+      "level": 1,
+      "page": 3,
+      "text": "Budget",
+      "type": "heading"
+    },
+    {
+      "bbox": [
+        914400.0,
+        3657600.0,
+        6400800.0,
+        1828800.0
+      ],
+      "page": 3,
+      "table_html": "<table><thead><tr><th>Item</th><th>Cost</th></tr></thead><tbody><tr><td>Cloud</td><td>$40k</td></tr><tr><td>Tooling</td><td>$5k</td></tr></tbody></table>",
+      "text": "| Item | Cost |\n| --- | --- |\n| Cloud | $40k |\n| Tooling | $5k |",
+      "type": "table"
+    }
+  ],
+  "doc_type": "pptx",
+  "metadata": {
+    "docling_status": "success",
+    "filename": "roadmap.pptx",
+    "page_count": 3
+  },
+  "parser": "docling",
+  "title": "Q3 Roadmap"
+}

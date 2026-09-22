@@ -5,11 +5,10 @@ from logging.config import fileConfig
 from alembic import context
 from sqlalchemy import engine_from_config, pool
 
+# Import model modules here so their tables register on Base.metadata.
+import ragchat.ingest.state  # noqa: F401
 from ragchat.core.db import Base
 from ragchat.core.settings import get_settings
-
-# Import model modules here so their tables register on Base.metadata.
-# e.g. `import ragchat.ingest.state` (with an F401 noqa comment)
 
 config = context.config
 if config.config_file_name is not None:

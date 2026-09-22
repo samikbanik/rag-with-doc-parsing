@@ -9,9 +9,20 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import TypeVar
 
-from openai import AsyncOpenAI
+from openai import (
+    AsyncOpenAI,
+    AuthenticationError,
+    BadRequestError,
+    NotFoundError,
+    PermissionDeniedError,
+)
 from pydantic import BaseModel
-from tenacity import retry, stop_after_attempt, wait_exponential_jitter
+from tenacity import (
+    retry,
+    retry_if_not_exception_type,
+    stop_after_attempt,
+    wait_exponential_jitter,
+)
 
 from ragchat.core.logging import get_logger
 from ragchat.core.settings import get_settings
@@ -19,7 +30,10 @@ from ragchat.core.settings import get_settings
 log = get_logger(__name__)
 T = TypeVar("T", bound=BaseModel)
 
+# Retry transient failures (rate limits, 5xx, network); never retry bad requests/credentials.
+_NO_RETRY = (AuthenticationError, PermissionDeniedError, BadRequestError, NotFoundError)
 _retry = retry(
+    retry=retry_if_not_exception_type(_NO_RETRY),
     stop=stop_after_attempt(5),
     wait=wait_exponential_jitter(initial=1, max=20),
     reraise=True,

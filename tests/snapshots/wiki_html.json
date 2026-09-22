@@ -1,0 +1,86 @@
+{
+  "blocks": [
+    {
+      "level": 1,
+      "text": "Onboarding",
+      "type": "heading"
+    },
+    {
+      "text": "Welcome to the team! Read this handbook first.",
+      "type": "paragraph"
+    },
+    {
+      "text": "Loose text inside a div with bold.",
+      "type": "paragraph"
+    },
+    {
+      "level": 2,
+      "text": "First week",
+      "type": "heading"
+    },
+    {
+      "level": 1,
+      "text": "Get a laptop",
+      "type": "list_item"
+    },
+    {
+      "level": 1,
+      "text": "Set up accounts",
+      "type": "list_item"
+    },
+    {
+      "level": 2,
+      "text": "Email",
+      "type": "list_item"
+    },
+    {
+      "level": 2,
+      "text": "Slack",
+      "type": "list_item"
+    },
+    {
+      "level": 1,
+      "text": "Meet your buddy",
+      "type": "list_item"
+    },
+    {
+      "level": 2,
+      "text": "Tools",
+      "type": "heading"
+    },
+    {
+      "table_html": "<table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td>Jira</td><td>Tickets</td></tr><tr><td>Confluence</td><td>Docs &amp; wiki</td></tr></tbody></table>",
+      "text": "| Tool | Purpose |\n| --- | --- |\n| Jira | Tickets |\n| Confluence | Docs & wiki |",
+      "type": "table"
+    },
+    {
+      "table_html": "<table><tbody><tr><td>no</td><td>header</td></tr><tr><td>second</td><td>row</td></tr></tbody></table>",
+      "text": "|  |  |\n| --- | --- |\n| no | header |\n| second | row |",
+      "type": "table"
+    },
+    {
+      "language": "bash",
+      "text": "git clone repo\ncd repo",
+      "type": "code"
+    },
+    {
+      "text": "Figure 1: architecture",
+      "type": "caption"
+    },
+    {
+      "text": "Quoted advice.",
+      "type": "paragraph"
+    },
+    {
+      "level": 3,
+      "text": "Empty section",
+      "type": "heading"
+    }
+  ],
+  "doc_type": "html",
+  "metadata": {
+    "filename": "wiki.html"
+  },
+  "parser": "html",
+  "title": "Onboarding Wiki"
+}
