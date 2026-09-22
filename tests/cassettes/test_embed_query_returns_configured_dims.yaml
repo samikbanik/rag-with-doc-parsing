@@ -1,0 +1,147 @@
+interactions:
+- request:
+    body: '{"input":["How many days of paid leave do I get?"],"model":"text-embedding-3-large","dimensions":1024,"encoding_format":"base64"}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '129'
+      content-type:
+      - application/json
+      host:
+      - api.openai.com
+      user-agent:
+      - AsyncOpenAI/Python 3.16.2
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - async:asyncio
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 3.16.2
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.13
+    method: POST
+    uri: https://api.openai.com/v1/embeddings
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      access-control-expose-headers:
+      - X-Request-ID
+      - CF-Ray
+      - CF-Ray
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      cf-ray:
+      - a3edbc250be6b874-LHR
+      connection:
+      - keep-alive
+      content-encoding:
+      - gzip
+      content-type:
+      - application/json
+      date:
+      - Tue, 22 Sep 2026 02:03:45 GMT
+      openai-processing-ms:
+      - '76'
+      openai-version:
+      - '2020-10-01'
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      transfer-encoding:
+      - chunked
+      x-content-type-options:
+      - nosniff
+      x-openai-proxy-wasm:
+      - v0.1
+      x-ratelimit-limit-requests:
+      - '3000'
+      x-ratelimit-limit-tokens:
+      - '1000000'
+      x-ratelimit-remaining-requests:
+      - '2999'
+      x-ratelimit-remaining-tokens:
+      - '999991'
+      x-ratelimit-reset-requests:
+      - 20ms
+      x-ratelimit-reset-tokens:
+      - 0s
+    status:
+      code: 200
+      message: OK
+version: 1

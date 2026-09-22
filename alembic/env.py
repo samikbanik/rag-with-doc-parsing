@@ -6,6 +6,7 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 # Import model modules here so their tables register on Base.metadata.
+import ragchat.agent.traces  # noqa: F401
 import ragchat.ingest.state  # noqa: F401
 from ragchat.core.db import Base
 from ragchat.core.settings import get_settings

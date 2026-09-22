@@ -121,6 +121,6 @@ async def env(settings: Settings) -> AsyncIterator[dict]:
     from sqlalchemy import text
 
     async with engine.begin() as conn:
-        await conn.execute(text("TRUNCATE documents, chunks, embedding_cache CASCADE"))
+        await conn.execute(text("TRUNCATE documents, chunks, embedding_cache, traces CASCADE"))
     await client.close()
     await engine.dispose()

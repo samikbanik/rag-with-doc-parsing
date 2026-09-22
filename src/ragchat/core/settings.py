@@ -52,6 +52,7 @@ class RetrievalSettings(BaseModel):
     prefetch_k: int = 40
     top_k: int = 8
     max_chunks_per_doc: int = 3
+    max_context_tokens: int = 8000  # budget for assembled <document> context
     hybrid: bool = False
     rerank: Literal["none", "cross_encoder", "llm"] = "none"
     query_rewrite: bool = False

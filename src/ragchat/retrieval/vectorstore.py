@@ -162,6 +162,23 @@ class VectorStore:
         res = await self.client.count(collection_name=self.collection, count_filter=flt, exact=True)
         return res.count
 
+    async def search_dense(
+        self,
+        vector: list[float],
+        *,
+        limit: int,
+        query_filter: models.Filter | None = None,
+    ) -> list[models.ScoredPoint]:
+        res = await self.client.query_points(
+            collection_name=self.collection,
+            query=vector,
+            using=self.dense,
+            query_filter=query_filter,
+            limit=limit,
+            with_payload=True,
+        )
+        return res.points
+
     async def scroll_doc(self, doc_id: str) -> list[models.Record]:
         records, _ = await self.client.scroll(
             collection_name=self.collection,

@@ -6,6 +6,7 @@ usage accounting and (later) request/response tracing live in one place.
 
 from __future__ import annotations
 
+from dataclasses import dataclass
 from functools import lru_cache
 from typing import TypeVar
 
@@ -29,6 +30,24 @@ from ragchat.core.settings import get_settings
 
 log = get_logger(__name__)
 T = TypeVar("T", bound=BaseModel)
+
+
+@dataclass(frozen=True)
+class Usage:
+    input_tokens: int = 0
+    output_tokens: int = 0
+
+    @property
+    def total(self) -> int:
+        return self.input_tokens + self.output_tokens
+
+
+@dataclass(frozen=True)
+class StructuredResult[S: BaseModel]:
+    parsed: S
+    usage: Usage
+    model: str
+
 
 # Retry transient failures (rate limits, 5xx, network); never retry bad requests/credentials.
 _NO_RETRY = (AuthenticationError, PermissionDeniedError, BadRequestError, NotFoundError)
@@ -70,23 +89,35 @@ class LLMClient:
         )
         return resp.output_text
 
-    @_retry
     async def complete_structured(
         self, system: str, user: str, schema: type[T], *, model: str | None = None
     ) -> T:
         """Structured output: the model must return JSON matching `schema`."""
+        return (await self.generate_structured(system, user, schema, model=model)).parsed
+
+    @_retry
+    async def generate_structured(
+        self, system: str, user: str, schema: type[T], *, model: str | None = None
+    ) -> StructuredResult[T]:
+        """Like `complete_structured` but also returns token usage (for traces)."""
         cfg = self.settings.llm
+        model = model or cfg.small_model
         resp = await self.client.responses.parse(
-            model=model or cfg.small_model,
+            model=model,
             instructions=system,
             input=user,
             temperature=cfg.temperature,
+            max_output_tokens=cfg.max_output_tokens,
             text_format=schema,
         )
         parsed = resp.output_parsed
         if parsed is None:
             raise ValueError("model returned no parsable structured output")
-        return parsed
+        usage = Usage(
+            input_tokens=resp.usage.input_tokens if resp.usage else 0,
+            output_tokens=resp.usage.output_tokens if resp.usage else 0,
+        )
+        return StructuredResult(parsed=parsed, usage=usage, model=model)
 
     # -- health -----------------------------------------------------------------------------
 

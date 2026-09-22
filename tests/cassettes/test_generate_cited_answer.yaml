@@ -1,0 +1,130 @@
+interactions:
+- request:
+    body: '{"input":"<documents>\n<document id=\"1\" title=\"Employee Handbook\" uri=\"/docs/handbook.md\">\nEmployee
+      Handbook > Welcome > Time off\n\nEveryone gets 25 days of paid leave per year.
+      Unused days carry over.\n</document>\n\n<document id=\"2\" title=\"Employee
+      Handbook\" uri=\"/docs/handbook.md\">\nEmployee Handbook > Welcome > Time off\n\nReimbursement
+      takes 5 business days.\n</document>\n</documents>\n\nQuestion: How many days
+      of paid leave do employees get?\n","instructions":"You answer employees'' questions
+      using only the documents provided inside <document> tags.\n\nRules:\n- Use only
+      information from the documents. Do not use outside knowledge.\n- Cite every
+      factual statement with the document number in square brackets, e.g. [1] or [2][3].\n  Cite
+      only documents that actually support the statement.\n- If the documents do not
+      contain enough information to answer, set insufficient_context to\n  true and
+      say so briefly in the answer; do not guess.\n- Be concise and specific. Quote
+      figures, names and dates exactly as written.\n- Answer in the language of the
+      question.\n","max_output_tokens":2048,"model":"gpt-4.1","temperature":0.0,"text":{"format":{"type":"json_schema","strict":true,"name":"AnswerDraft","schema":{"description":"Structured
+      output requested from the model.","properties":{"answer":{"description":"The
+      answer with [n] citation markers, or a brief refusal.","title":"Answer","type":"string"},"citations":{"description":"Document
+      numbers actually cited in the answer.","items":{"type":"integer"},"title":"Citations","type":"array"},"insufficient_context":{"default":false,"description":"True
+      when the documents do not answer the question.","title":"Insufficient Context","type":"boolean"}},"required":["answer","citations","insufficient_context"],"title":"AnswerDraft","type":"object","additionalProperties":false}}}}'
+    headers:
+      accept:
+      - application/json
+      accept-encoding:
+      - gzip, deflate
+      connection:
+      - keep-alive
+      content-length:
+      - '1851'
+      content-type:
+      - application/json
+      host:
+      - api.openai.com
+      user-agent:
+      - AsyncOpenAI/Python 3.16.2
+      x-stainless-arch:
+      - arm64
+      x-stainless-async:
+      - async:asyncio
+      x-stainless-lang:
+      - python
+      x-stainless-os:
+      - MacOS
+      x-stainless-package-version:
+      - 3.16.2
+      x-stainless-read-timeout:
+      - '600'
+      x-stainless-retry-count:
+      - '0'
+      x-stainless-runtime:
+      - CPython
+      x-stainless-runtime-version:
+      - 3.12.13
+    method: POST
+    uri: https://api.openai.com/v1/responses
+  response:
+    body:
+      string: !!binary |
+        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
+    headers:
+      access-control-expose-headers:
+      - X-Request-ID
+      - CF-Ray
+      - CF-Ray
+      alt-svc:
+      - h3=":443"; ma=86400
+      cf-cache-status:
+      - DYNAMIC
+      cf-ray:
+      - a3edbc282e3fcd72-LHR
+      connection:
+      - keep-alive
+      content-encoding:
+      - gzip
+      content-type:
+      - application/json
+      date:
+      - Tue, 22 Sep 2026 02:03:46 GMT
+      openai-processing-ms:
+      - '930'
+      openai-version:
+      - '2020-10-01'
+      server:
+      - cloudflare
+      strict-transport-security:
+      - max-age=31536000; includeSubDomains; preload
+      transfer-encoding:
+      - chunked
+      x-content-type-options:
+      - nosniff
+      x-ratelimit-limit-requests:
+      - '500'
+      x-ratelimit-limit-tokens:
+      - '30000'
+      x-ratelimit-remaining-requests:
+      - '499'
+      x-ratelimit-remaining-tokens:
+      - '29987'
+      x-ratelimit-reset-requests:
+      - 120ms
+      x-ratelimit-reset-tokens:
+      - 26ms
+    status:
+      code: 200
+      message: OK
+version: 1

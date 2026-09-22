@@ -230,6 +230,8 @@ class IngestPipeline:
         async with self.session_factory() as session:
             await state.delete_document(session, doc_id)
             await session.commit()
+        # Otherwise `rag reindex` would resurrect the document from its saved IR.
+        (self.parsed_dir / f"{doc_id}.json").unlink(missing_ok=True)
 
     # -- reindex --------------------------------------------------------------------------------
 

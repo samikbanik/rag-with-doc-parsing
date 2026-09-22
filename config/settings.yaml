@@ -33,6 +33,7 @@ retrieval:
   prefetch_k: 40
   top_k: 8
   max_chunks_per_doc: 3
+  max_context_tokens: 8000   # token budget for the assembled context handed to the LLM
   hybrid: false          # enable after eval (M4)
   rerank: none           # none | cross_encoder | llm
   query_rewrite: false

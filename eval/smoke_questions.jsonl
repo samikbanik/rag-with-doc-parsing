@@ -1,0 +1,12 @@
+{"question": "How many days of paid leave do employees get per year?", "expect_file": "handbook.md", "expect_text": "25"}
+{"question": "What is the daily limit for meal expenses?", "expect_file": "handbook.md", "expect_text": "50"}
+{"question": "How long does expense reimbursement take?", "expect_file": "handbook.md", "expect_text": "5 business days"}
+{"question": "Which tool do we use for tickets?", "expect_file": "wiki.html", "expect_text": "Jira"}
+{"question": "What should a new hire do in their first week?", "expect_file": "wiki.html", "expect_text": "laptop"}
+{"question": "What is the minimum password length and how often must passwords rotate?", "expect_file": "policy.docx", "expect_text": "12"}
+{"question": "Where do I report a security incident, and how quickly?", "expect_file": "policy.docx", "expect_text": "security@example.com"}
+{"question": "What are the engineering goals for Q3?", "expect_file": "roadmap.pptx", "expect_text": "search"}
+{"question": "How much is budgeted for cloud?", "expect_file": "roadmap.pptx", "expect_text": "40k"}
+{"question": "What was revenue in 2025 and how much did it grow?", "expect_file": "report.pdf", "expect_text": "142"}
+{"question": "Is manager approval needed for sick leave?", "expect_file": "handbook.md", "expect_text": "self-certified"}
+{"question": "What is the office parking policy?", "expect_refusal": true}

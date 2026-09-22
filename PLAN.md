@@ -133,4 +133,20 @@ ACLs, OCR, deployment, auth beyond API key, multi-tenant collections, Langfuse/O
   Fast enough that the `pymupdf4llm` fast path was not added; revisit if real corpora are slower.
   Known limits: failed documents are retried on every run; nested PPTX bullets come out flat;
   a 401 from OpenAI fails each document rather than aborting the run.
-- **Next: Milestone 2** — baseline dense retrieval, context assembly, cited answers via `rag query`, traces.
+- **2026-09-22 — Milestone 2 complete.** Baseline RAG, dense-only: `retrieval/retriever.py` (dense
+  top-`prefetch_k` → `max_chunks_per_doc` cap → `top_k`), `retrieval/assemble.py` (numbered
+  `<document id="n" title uri page>` blocks under `retrieval.max_context_tokens`), `agent/answer.py`
+  (structured output `AnswerDraft{answer, citations[int], insufficient_context}` → validated
+  `Answer{answer, citations[{chunk_id,title,uri,page,snippet}], retrieved_chunk_ids, trace_id}`;
+  refuses without a valid citation), `agent/traces.py` + migration `0002_traces` (query, retrieved
+  ids+scores, cited ids, tokens, retrieval/llm/total latency, error), `rag query "..." [--top-k
+  --show-context --json]`. `LLMClient.generate_structured` now returns token usage.
+  **Acceptance:** `scripts/smoke_query.py eval/smoke_questions.jsonl` — 12/12 questions over the
+  fixture corpus answered with the correct source cited (11 factual + 1 refusal), ~1–2 s each.
+  Tests: 61 (OpenAI via vcrpy cassettes in `tests/cassettes/`, re-record with `--record-mode=once`).
+  Observations for M4: gpt-4.1 often reports citations only in the structured list, not as inline
+  `[n]` markers (prompt tweak before the M7 UI); "revenue was 142" dropped the "USD millions" unit
+  that sits in the neighbouring chunk — a case for neighbour expansion. Fixed in passing: pruning
+  now also deletes the IR JSON so `rag reindex` cannot resurrect removed documents.
+- **Next: Milestone 3** — eval harness: `generate_golden.py`, curated `eval/golden.jsonl`, `rag eval`
+  with recall@k / MRR + ragas, baselines committed.

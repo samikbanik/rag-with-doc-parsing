@@ -1,7 +1,7 @@
 """`rag` command-line interface.
 
-Milestone 0: `status`, `config`. Milestone 1: `ingest`, `reindex`.
-Later milestones add query, eval, worker.
+Milestone 0: `status`, `config`. Milestone 1: `ingest`, `reindex`. Milestone 2: `query`.
+Later milestones add eval, worker.
 """
 
 from __future__ import annotations
@@ -152,6 +152,69 @@ def ingest(
     _run_reporting(
         pipeline.run(connector, force=force, prune=prune, dry_run=dry_run),
         f"rag ingest {path}{' (dry run)' if dry_run else ''}",
+    )
+
+
+def _answer_service():  # noqa: ANN202
+    from ragchat.agent.answer import AnswerService
+    from ragchat.core.db import get_sessionmaker
+    from ragchat.core.llm import get_llm
+    from ragchat.ingest.chunking import tiktoken_counter
+    from ragchat.retrieval.retriever import Retriever
+    from ragchat.retrieval.vectorstore import VectorStore
+
+    s = get_settings()
+    llm = get_llm()
+    retriever = Retriever(s, VectorStore(s), llm.embed)
+    return AnswerService(s, retriever, llm, get_sessionmaker(), tiktoken_counter())
+
+
+@app.command()
+def query(
+    question: str = typer.Argument(..., help="Question to answer from the indexed documents"),
+    top_k: int | None = typer.Option(None, help="Chunks to retrieve (default: settings)"),
+    show_context: bool = typer.Option(False, help="Print the retrieved chunks too"),
+    as_json: bool = typer.Option(False, "--json", help="Print the answer contract as JSON"),
+) -> None:
+    """Answer a question with citations (baseline dense RAG)."""
+    from rich.markdown import Markdown
+    from rich.panel import Panel
+
+    service = _answer_service()
+    answer = asyncio.run(service.answer(question, top_k=top_k))
+
+    if as_json:
+        console.print_json(answer.model_dump_json())
+        return
+
+    style = "yellow" if answer.refused else "green"
+    console.print(Panel(Markdown(answer.answer), title="Answer", border_style=style))
+
+    if answer.citations:
+        table = Table(title="Citations")
+        table.add_column("#", justify="right")
+        table.add_column("Title")
+        table.add_column("Page", justify="right")
+        table.add_column("Score", justify="right")
+        table.add_column("Snippet", overflow="fold")
+        for c in answer.citations:
+            table.add_row(
+                str(c.number),
+                f"{c.title}\n[dim]{c.uri}[/]",
+                str(c.page) if c.page is not None else "-",
+                f"{c.score:.3f}",
+                c.snippet,
+            )
+        console.print(table)
+
+    if show_context:
+        console.print(f"[bold]Retrieved {len(answer.retrieved_chunk_ids)} chunk(s):[/]")
+        for cid in answer.retrieved_chunk_ids:
+            console.print(f"  {cid}")
+
+    console.print(
+        f"[dim]trace={answer.trace_id}  tokens={answer.usage.get('input_tokens', 0)}+"
+        f"{answer.usage.get('output_tokens', 0)}  latency={answer.latency_ms}ms[/]"
     )
 
 

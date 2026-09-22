@@ -87,7 +87,9 @@ async def test_ingest_end_to_end(env: dict, corpus: Path):
     assert r4.pruned == 1 and r4.scanned == 1
     rows = await _doc_rows(env["sessions"])
     assert set(rows) == {"handbook.md"}
-    assert await store.count(make_doc_id("local", str(corpus / "sub" / "wiki.html"))) == 0
+    pruned_id = make_doc_id("local", str(corpus / "sub" / "wiki.html"))
+    assert await store.count(pruned_id) == 0
+    assert not (env["settings"].parsed_dir / f"{pruned_id}.json").exists()
     async with env["sessions"]() as s:
         n_chunks = await s.scalar(select(func.count()).select_from(state.ChunkRecord))
     assert n_chunks == rows["handbook.md"].chunk_count == await store.count()
